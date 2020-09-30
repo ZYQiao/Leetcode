@@ -1,9 +1,12 @@
 #include <iostream>
 #include <vector>
+#include <set>
 using namespace std;
 
 class Solution {
+
 public:
+
     /**
      * 给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
      * 不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
@@ -114,30 +117,62 @@ public:
      * 输入: [1,2,3,4,5,6,7] 和 k = 3
      * 输出: [5,6,7,1,2,3,4]
      */
+//    void rotate(vector<int>& nums, int k) {
+//        int n = nums.size();
+//        k%=n;
+//        if(n <= 1|| k == 0) return ;
+//        int *tmp = new int[k];
+//        for(int i = n-k; i < n; i++)  tmp[i-n+k] = nums[i];
+//        for(int i = n-1; i >= k; i--)    nums[i] = nums[i-k];
+//        for(int i = 0; i < k; i++)  nums[i] = tmp[i];
+//    }
     void rotate(vector<int>& nums, int k) {
         int n = nums.size();
-        for(int i = 0; i < n; i++){
-            nums[i]=nums[i+k%n];
+        k%=n;
+        if(n <= 1|| k == 0) return ;
+        int tmp1 = 0, tmp2, init = 0;//tmp1 当前位置 tmp2 +k位置
+        int rep, orig= nums[tmp1];//rep 用来保存+k位置的元素 orig 当前位置的元素
+        for(int i = 0 ; i < n; i++){
+            tmp2 = (tmp1+k)%n;
+            rep = nums[tmp2];
+            nums[tmp2] = orig;
+            tmp1 = tmp2;//更新当前位置
+            if(init == tmp1){//已经转换一轮了
+                init = ++tmp1;
+                orig = nums[tmp1];
+            } else  orig = rep;//更新当前位置的元素
         }
+    }
+    /**
+     * 给定一个整数数组，判断是否存在重复元素。
+     * 如果任意一值在数组中出现至少两次，函数返回 true 。如果数组中每个元素都不相同，则返回 false 。
+     * 输入: [1,2,3,4]
+     * 输出: false
+     */
+    bool containsDuplicate(vector<int>& nums) {
+//        set<int> s;
+//        for(int num:nums) s.insert(num);
+//        return nums.size() != s.size();
+        sort(nums.begin(),nums.end());
+        for(int i = 0; i < nums.size()-1; i++){
+            if(nums[i] == nums[i+1]) return true;
+        }
+        return false;
     }
 
 };
 
 int main() {
 
-    class Solution s;
-//    vector<int> nums = {3,3,3,3};
+    //class Solution s;
+    Solution s;
+    vector<int> nums = {1,2,3,4,5,6};
 
-    // nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝
-//    int len = s.removeDuplicates(nums);
-//    int len = s.removeElement(nums,2);
-//    for (int i = 0; i < len; i++) {
-//       cout<<nums[i]<<" ";
-//    }
-//    string haystack = "", needle = "";
-//    int len = s.strStr(haystack,needle);
-    int len = s.divide(-2147483648,-1);
-    cout<<len<<endl;
-    cout<<-2147483648/-1<<endl;
+    s.rotate(nums,3);
+    for (int num : nums) {
+        cout<<num<<" ";
+    }
+    cout<<endl;
+
     return 0;
 }
