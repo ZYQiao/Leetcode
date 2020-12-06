@@ -48,7 +48,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-	// write your code here
+        // write your code here
         Solution s = new Solution();
 //        List<List<Integer>> lists = s.generate(1);
 //        for(List<Integer> list : lists){
