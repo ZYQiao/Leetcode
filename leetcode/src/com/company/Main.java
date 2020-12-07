@@ -42,6 +42,27 @@ class Solution{
         }
         return sum;
     }
+
+    public int matrixScore(int[][] A) {
+        if(A.length == 1) return 1;
+        int score = (int) (Math.pow(2,A[0].length)-1)*A.length;
+        for(int[] ints : A){
+            if(ints[0] == 0){
+                for(int j = 0; j < ints.length; j++){
+                    if(ints[j] == 0) ints[j] = 1;
+                    else ints[j] = 0;
+                }
+            }
+        }
+        for (int j = 1; j < A[0].length; j++) {
+            int c = 0;
+            for (int[] ints : A)
+                if (ints[j] == 0) c++;
+            if(c <= A.length/2) score -= Math.pow(2,A[0].length-j-1)*c;
+            else score -= Math.pow(2,A[0].length-j-1)*(A.length-c);
+        }
+        return score;
+    }
 }
 
 public class Main {
@@ -64,8 +85,11 @@ public class Main {
 //            System.out.println(nums[i]);
 //        }
 
-        int[] prices = {1,2,3,4,5};
-        int profit = s.maxProfit(prices);
-        System.out.println(profit);
+//        int[] prices = {1,2,3,4,5};
+//        int profit = s.maxProfit(prices);
+//        System.out.println(profit);
+        int[][] A = {{0,0,1,1},{1,0,1,0},{1,1,0,0}};
+        int score = s.matrixScore(A);
+        System.out.println(score);
     }
 }
